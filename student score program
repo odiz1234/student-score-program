@@ -1,0 +1,121 @@
+#include <iostream>
+#include <algorithm>   // for sort()
+using namespace std;
+
+// Function for Linear Search
+int linearSearch(int arr[], int size, int key) {
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == key)
+            return i;   // return index
+    }
+    return -1;          // not found
+}
+
+// Function for Binary Search
+int binarySearch(int arr[], int size, int key) {
+    int left = 0, right = size - 1;
+
+    while (left <= right) {
+        int mid = (left + right) / 2;
+
+        if (arr[mid] == key)
+            return mid;
+        else if (arr[mid] < key)
+            left = mid + 1;
+        else
+            right = mid - 1;
+    }
+    return -1; // not found
+}
+
+int main() {
+    int scores[20];   // extra space for insertion
+    int size = 10;
+
+    // ------------------- Task 1 -------------------
+    cout << "Enter 10 student scores:\n";
+    for (int i = 0; i < size; i++) {
+        cin >> scores[i];
+    }
+
+    // Traverse and compute average
+    int sum = 0;
+    for (int i = 0; i < size; i++) {
+        sum += scores[i];
+    }
+    float average = sum / 10.0;
+
+    cout << "\nAverage Score = " << average << endl;
+
+    // ------------------- Task 2 -------------------
+    int newScore;
+    cout << "\nEnter a new score to insert at the 5th position: ";
+    cin >> newScore;
+
+    // Shift elements to make space
+    for (int i = size; i > 4; i--) {
+        scores[i] = scores[i - 1];
+    }
+    scores[4] = newScore;
+    size++;
+
+    cout << "\nArray after insertion:\n";
+    for (int i = 0; i < size; i++)
+        cout << scores[i] << " ";
+    cout << endl;
+
+    // ------------------- Task 3 -------------------
+    // Find lowest score and delete it
+    int minIndex = 0;
+    for (int i = 1; i < size; i++) {
+        if (scores[i] < scores[minIndex])
+            minIndex = i;
+    }
+
+    // Shift left to delete
+    for (int i = minIndex; i < size - 1; i++) {
+        scores[i] = scores[i + 1];
+    }
+    size--;
+
+    cout << "\nArray after deleting lowest score:\n";
+    for (int i = 0; i < size; i++)
+        cout << scores[i] << " ";
+    cout << endl;
+
+    // ------------------- Task 4 -------------------
+    int searchValue;
+    cout << "\nEnter a score to search for: ";
+    cin >> searchValue;
+
+    // Linear Search
+    int linResult = linearSearch(scores, size, searchValue);
+    if (linResult != -1)
+        cout << "\nLinear Search: Score found at index " << linResult << endl;
+    else
+        cout << "\nLinear Search: Score NOT found.\n";
+
+    // Binary Search
+    // Sort array before Binary Search
+    sort(scores, scores + size);
+
+    int binResult = binarySearch(scores, size, searchValue);
+    if (binResult != -1)
+        cout << "Binary Search: Score found at index " << binResult << " (after sorting)\n";
+    else
+        cout << "Binary Search: Score NOT found.\n";
+
+    return 0;
+}
+
+
+
+
+/*✅ What This Program Achieves
+
+✔ Inputs exactly 10 scores
+✔ Calculates and prints the average
+✔ Inserts a new score in the 5th position
+✔ Deletes the lowest score in the array
+✔ Performs Linear Search
+✔ Performs Binary Search (after sorting array)*/
